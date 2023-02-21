@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+
+        <prototype namespace="GamesealPlugin\"
+                   resource="../../{Command,Communication,Config,Data,Export,Resources,Repository, Storefront,Subscriber,Upload,Service,DataAbstractionLayer}"/>
+
+        <service id="gameseal.currency_exchange_api_repository"
+                 class="GamesealPlugin\Repository\CurrencyExchange\CurrencyExchangeRepository" public="true" autowire="true"/>
+
+        <service id="GamesealPlugin\Service\CurrencyExchangeApiService\API\ApiClient" public="true">
+            <argument type="service" id="gameseal.currency_exchange_api_repository" />
+        </service>
+
+        <service id="currencyapi" class="GamesealPlugin\Service\CurrencyExchangeApiService\Client\CurrencyApiClient" public="true">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="serializer" />
+            <argument type="service" id="shopware.app_system.guzzle" />
+            <argument type="service" id="gameseal.currency_exchange_api_repository" />
+        </service>
+
+        <service id="GamesealPlugin\Core\Content\CurrencyExchange\CurrencyExchangeDefinition">
+            <tag name="shopware.entity.definition" entity="gameseal_currency_exchange" />
+        </service>
+
+        <service id="GamesealPlugin\API\CurrencyExchangeController" public="true">
+            <argument type="service" id="GamesealPlugin\Service\CurrencyExchangeApiService\API\ApiClient" />
+            <argument type="service" id="serializer" />
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="GamesealPlugin\Command\GetCurrenciesExchangeDataCommand">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="service_container" />
+            <tag name="console.command"/>
+        </service>
+    </services>
+</container>
