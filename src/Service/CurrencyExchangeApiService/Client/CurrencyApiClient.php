@@ -18,9 +18,7 @@ class CurrencyApiClient extends AbstractClient
     public function run(): void
     {
         $url = sprintf('%s/%s?base_currency=%s&currencies=%s', self::API_URL, 'latest', $this->baseCurrency, $this->currenciesCodes);
-        $response = $this->makeRequest('GET', $url);
-        $data = $response->getBody()->getContents();
-        $body = json_decode($data, true);
+        $body = $this->makeRequest('GET', $url);
         $dataArray['lastUpdatedAt'] = $body['meta']['last_updated_at'];
 
         foreach ($body['data'] as $currency) {

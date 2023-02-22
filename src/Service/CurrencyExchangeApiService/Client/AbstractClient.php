@@ -7,7 +7,6 @@ namespace GamesealPlugin\Service\CurrencyExchangeApiService\Client;
 use GamesealPlugin\Core\Content\CurrencyExchange\CurrencyExchangeSource;
 use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\DTOInterface;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -23,8 +22,8 @@ use Shopware\Core\System\Currency\CurrencyEntity;
 abstract class AbstractClient
 {
     public string $currenciesCodes;
+    public string $baseCurrency;
     public ?string $apiKey;
-    public ?string $baseCurrency;
 
     public function __construct(
         protected SystemConfigService $configService,
@@ -35,13 +34,14 @@ abstract class AbstractClient
     )
     {
         $this->apiKey = $this->configService->get('GamesealPlugin.config.apiKey');
-        $this->baseCurrency = $this->configService->get('GamesealPlugin.config.baseCurrency');
+        $baseCurrencyId = $this->configService->get('GamesealPlugin.config.baseCurrency');
         $currenciesIdsToRate = $this->configService->get('GamesealPlugin.config.currenciesToRate');
 
-        if (!$this->baseCurrency || !$currenciesIdsToRate) {
+        if (!$baseCurrencyId || !$currenciesIdsToRate) {
             throw new \Exception('Base Currency or CurrencyToRate params are missing in plugin config');
         } else {
             $this->currenciesCodes = $this->getCurrenciesRateCodesString($currenciesIdsToRate);
+            $this->baseCurrency = $this->getCurrencyCodeById($baseCurrencyId);
         }
     }
 
@@ -54,9 +54,12 @@ abstract class AbstractClient
     /**
      * @throws GuzzleException
      */
-    protected function makeRequest(string $method, string $url): ResponseInterface
+    protected function makeRequest(string $method, string $url): array
     {
-        return $this->client->send(new Request($method, $url, ['apiKey' => $this->apiKey]));
+        $response = $this->client->send(new Request($method, $url, ['apiKey' => $this->apiKey]));
+        $data = $response->getBody()->getContents();
+
+        return json_decode($data, true);
     }
 
     protected function writeData(DTOInterface $dto): void
@@ -87,20 +90,22 @@ abstract class AbstractClient
         return $this->entityRepository->searchIds($criteria, $context)->firstId();
     }
 
-    protected function getCurrenciesRateCodesString(array $currenciesRateIds): string
+    private function getCurrenciesRateCodesString(array $currencyIds): string
+    {
+        $data = array_map(fn($currencyId): string => $this->getCurrencyCodeById($currencyId), $currencyIds);
+
+        return implode(',', $data);
+    }
+
+    private function getCurrencyCodeById(string $currencyId): string
     {
         /** @var EntityRepository $currencyRepo */
         $currencyRepo = $this->container->get('currency.repository');
-        $data = [];
+        $criteria = new Criteria();
+        $criteria->addFilter(new EqualsFilter('id', $currencyId));
+        /** @var CurrencyEntity $currency */
+        $currency = $currencyRepo->search($criteria, Context::createDefaultContext())->first();
 
-        foreach ($currenciesRateIds as $currenciesRateId) {
-            $criteria = new Criteria();
-            $criteria->addFilter(new EqualsFilter('id', $currenciesRateId));
-            /** @var CurrencyEntity $currency */
-            $currency = $currencyRepo->search($criteria, Context::createDefaultContext())->first();
-            $data[] = $currency->getIsoCode();
-        }
-
-        return implode(',', $data);
+        return  $currency->getIsoCode();
     }
 }
