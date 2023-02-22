@@ -13,6 +13,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
@@ -23,6 +24,8 @@ abstract class AbstractClient
 {
     public string $currenciesCodes;
     public string $baseCurrency;
+    public string $apiUrl;
+    public string $apiProvider;
     public ?string $apiKey;
 
     public function __construct(
@@ -31,18 +34,14 @@ abstract class AbstractClient
         protected Client $client,
         protected EntityRepository $entityRepository,
         protected ContainerInterface $container,
+        protected ParameterBagInterface $parameterBag,
     )
     {
+        $this->baseCurrency = $this->getBaseCurrencyCode();
+        $this->currenciesCodes = $this->getCurrenciesCodes();
         $this->apiKey = $this->configService->get('GamesealPlugin.config.apiKey');
-        $baseCurrencyId = $this->configService->get('GamesealPlugin.config.baseCurrency');
-        $currenciesIdsToRate = $this->configService->get('GamesealPlugin.config.currenciesToRate');
-
-        if (!$baseCurrencyId || !$currenciesIdsToRate) {
-            throw new \Exception('Base Currency or CurrencyToRate params are missing in plugin config');
-        } else {
-            $this->currenciesCodes = $this->getCurrenciesRateCodesString($currenciesIdsToRate);
-            $this->baseCurrency = $this->getCurrencyCodeById($baseCurrencyId);
-        }
+        $this->apiProvider = $this->configService->get('GamesealPlugin.config.apiProvider');
+        $this->apiUrl = $this->parameterBag->get(sprintf('%s.api_url', $this->apiProvider));
     }
 
     abstract public function run(): void;
@@ -54,12 +53,12 @@ abstract class AbstractClient
     /**
      * @throws GuzzleException
      */
-    protected function makeRequest(string $method, string $url): array
+    protected function makeRequest(string $method, string $url, bool $rawData = false)
     {
         $response = $this->client->send(new Request($method, $url, ['apiKey' => $this->apiKey]));
         $data = $response->getBody()->getContents();
 
-        return json_decode($data, true);
+        return $rawData ? $data : json_decode($data, true);
     }
 
     protected function writeData(DTOInterface $dto): void
@@ -108,4 +107,27 @@ abstract class AbstractClient
 
         return  $currency->getIsoCode();
     }
+
+    private function getCurrenciesCodes(): string
+    {
+        $currenciesIds = $this->configService->get('GamesealPlugin.config.currenciesToRate');
+
+        if (!$currenciesIds) {
+            throw new \Exception('CurrencyToRate param is missing in plugin config');
+        }
+
+        return $this->getCurrenciesRateCodesString($currenciesIds);
+    }
+
+    private function getBaseCurrencyCode(): string
+    {
+        $baseCurrencyId = $this->configService->get('GamesealPlugin.config.baseCurrency');
+
+        if (!$baseCurrencyId) {
+            throw new \Exception('BaseCurrency param is missing in plugin config');
+        }
+
+        return $this->getCurrencyCodeById($baseCurrencyId);
+    }
+
 }
