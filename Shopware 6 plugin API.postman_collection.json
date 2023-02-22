@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "5c26f891-cc91-456f-a170-a74cf52cc201",
+		"name": "Shopware 6 plugin API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8150260"
+	},
+	"item": [
+		{
+			"name": "Generate Bearer Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"client_id\": \"administration\",\n    \"grant_type\": \"password\",\n    \"scopes\": \"write\",\n    \"username\": \"admin\",\n    \"password\": \"adminadmin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost/api/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"oauth",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get plugin currency list",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJhZG1pbmlzdHJhdGlvbiIsImp0aSI6Ijg4YTBkZDI2MWRmNGNkNTI2ZDJmNGYxNjU4NThmOThiMGRjY2UxNDY5MDMwMjYzYmJjMWEwYTNjODIzMGJkNTA2Nzc4NDY3NTg0MGY5MWRlIiwiaWF0IjoxNjc2OTgxMTg3LjAwNjU3OSwibmJmIjoxNjc2OTgxMTg3LjAwNjU4MSwiZXhwIjoxNjc2OTgxNzg2Ljk4OTQ3Mywic3ViIjoiYjBmMjRlZDIxNWJmNGMxNzhiYjVmNTUyNjNjZWQ2NDAiLCJzY29wZXMiOlsid3JpdGUiLCJhZG1pbiJdfQ.gsfVx_7WZs3ql1ZKajja7UKV-LUh11_tZEwzxa2jkDDS5cysDNmKgRtaar7NS8Spz3AB642cf8nL6KUPtlmhJSuuf2hOTU6tE8I3gcPuZXeg6Y0xjKGpLXJbAG5cMOhoomUzrOcNwz9sRFSs5mT6T9ZOAn1IDh3cujU3RFPpOxSvKG2GX_KPYp7VH5bHQaG9wfjdBV793o75ME5wzqBu7Bj2NXzpl_rH8o2ROPoG0UrZQIxhb7rFyBMKE3W-gYq6TK5nSYiwtmYboVnAHqU2RROcgpvTPUMgAzTBoceIu14Klq0A7tdsEMYq6Ws3XYXkPaMTxBZwt1QgRWKNyxGfbA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/api/_action/gameseal/get-currencies-data",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"_action",
+						"gameseal",
+						"get-currencies-data"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
