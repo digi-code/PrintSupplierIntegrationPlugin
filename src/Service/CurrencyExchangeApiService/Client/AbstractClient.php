@@ -35,9 +35,6 @@ abstract class AbstractClient
     )
     {
         $this->apiKey = $this->configService->get('GamesealPlugin.config.apiKey');
-        $encoders = [new XmlEncoder(), new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $this->serializer = new Serializer($normalizers, $encoders);
     }
 
     abstract public function run(): void;
