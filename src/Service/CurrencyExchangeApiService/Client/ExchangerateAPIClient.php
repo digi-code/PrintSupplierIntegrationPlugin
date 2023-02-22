@@ -12,7 +12,7 @@ class ExchangerateAPIClient extends AbstractClient
     public function run(): void
     {
         $url = sprintf('%s/%s?base=%s&symbols=%s', $this->apiUrl, 'latest', $this->baseCurrency, $this->currenciesCodes);
-        $data = $this->makeRequest('GET', $url);
+        $data = $this->makeRequest('GET', $url, true);
         /** @var ExchangerateResponseDTO $responseDTO */
         $responseDTO = $this->serializer->deserialize($data, ExchangerateResponseDTO::class, 'json');
 
