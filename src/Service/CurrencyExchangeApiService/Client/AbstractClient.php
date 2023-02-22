@@ -13,28 +13,37 @@ use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
-use Symfony\Component\Serializer\Encoder\JsonEncoder;
-use Symfony\Component\Serializer\Encoder\XmlEncoder;
-use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use Shopware\Core\System\Currency\CurrencyEntity;
 
 
 abstract class AbstractClient
 {
-    public ?string $apiKey;
     public Context $context;
+    public string $currenciesCodes;
+    public ?string $apiKey;
+    public ?string $baseCurrency;
 
     public function __construct(
         protected SystemConfigService $configService,
         protected SerializerInterface $serializer,
         protected Client $client,
         protected EntityRepository $entityRepository,
+        protected ContainerInterface $container,
     )
     {
         $this->apiKey = $this->configService->get('GamesealPlugin.config.apiKey');
+        $this->baseCurrency = $this->configService->get('GamesealPlugin.config.baseCurrency');
+        $currenciesIdsToRate = $this->configService->get('GamesealPlugin.config.currenciesToRate');
+
+        if (!$this->baseCurrency || !$currenciesIdsToRate) {
+            throw new \Exception('Base Currency or CurrencyToRate params are missing in plugin config');
+        } else {
+            $this->currenciesCodes = $this->getCurrenciesRateCodesString($currenciesIdsToRate);
+        }
     }
 
     abstract public function run(): void;
@@ -79,5 +88,22 @@ abstract class AbstractClient
         $criteria->addFilter(new EqualsFilter('code', $source->getCode()));
 
         return $this->entityRepository->searchIds($criteria, $context)->firstId();
+    }
+
+    protected function getCurrenciesRateCodesString(array $currenciesRateIds): string
+    {
+        /** @var EntityRepository $currencyRepo */
+        $currencyRepo = $this->container->get('currency.repository');
+        $data = [];
+
+        foreach ($currenciesRateIds as $currenciesRateId) {
+            $criteria = new Criteria();
+            $criteria->addFilter(new EqualsFilter('id', $currenciesRateId));
+            /** @var CurrencyEntity $currency */
+            $currency = $currencyRepo->search($criteria, Context::createDefaultContext())->first();
+            $data[] = $currency->getIsoCode();
+        }
+
+        return implode(',', $data);
     }
 }

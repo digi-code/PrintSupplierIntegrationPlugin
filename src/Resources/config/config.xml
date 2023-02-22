@@ -21,5 +21,17 @@
             <name>apiKey</name>
             <label>Provide API key</label>
         </input-field>
+
+        <component name="sw-entity-single-select">
+            <name>baseCurrency</name>
+            <entity>currency</entity>
+            <label>Choose base currency</label>
+        </component>
+
+        <component name="sw-entity-multi-id-select">
+            <name>currenciesToRate</name>
+            <entity>currency</entity>
+            <label>Choose currencies to compare</label>
+        </component>
     </card>
 </config>
