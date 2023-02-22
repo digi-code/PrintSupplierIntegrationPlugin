@@ -23,6 +23,13 @@
             <argument type="service" id="gameseal.currency_exchange_api_repository" />
         </service>
 
+        <service id="exchangerate" class="GamesealPlugin\Service\CurrencyExchangeApiService\Client\ExchangerateAPIClient" public="true">
+            <argument type="service" id="Shopware\Core\System\SystemConfig\SystemConfigService" />
+            <argument type="service" id="serializer" />
+            <argument type="service" id="shopware.app_system.guzzle" />
+            <argument type="service" id="gameseal.currency_exchange_api_repository" />
+        </service>
+
         <service id="GamesealPlugin\Core\Content\CurrencyExchange\CurrencyExchangeDefinition">
             <tag name="shopware.entity.definition" entity="gameseal_currency_exchange" />
         </service>

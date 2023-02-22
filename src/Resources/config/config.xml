@@ -14,6 +14,10 @@
                     <id>currencyapi</id>
                     <name>Currency API</name>
                 </option>
+                <option>
+                    <id>exchangerate</id>
+                    <name>Exchangerate API</name>
+                </option>
             </options>
         </input-field>
 
