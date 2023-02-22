@@ -22,7 +22,6 @@ use Shopware\Core\System\Currency\CurrencyEntity;
 
 abstract class AbstractClient
 {
-    public Context $context;
     public string $currenciesCodes;
     public ?string $apiKey;
     public ?string $baseCurrency;
@@ -49,9 +48,7 @@ abstract class AbstractClient
     abstract public function run(): void;
     public function createContext(DTOInterface $dto): Context
     {
-        $this->context = new Context(new CurrencyExchangeSource($dto->code, $dto->value, $dto->lastUpdatedAt));
-
-        return $this->context;
+        return new Context(new CurrencyExchangeSource($dto->code, $dto->value, $dto->lastUpdatedAt));
     }
 
     /**
