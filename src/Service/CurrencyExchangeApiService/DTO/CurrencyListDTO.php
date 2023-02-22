@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GamesealPlugin\Service\CurrencyExchangeApiService\DTO;
 
-class CurrencyListApiDTO
+class CurrencyListDTO
 {
     public string $code;
     public float $value;
