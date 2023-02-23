@@ -30,10 +30,7 @@ class GetCurrenciesExchangeDataCommand extends Command
         $apiProvider = $this->configService->get('GamesealPlugin.config.apiProvider');
 
         if (!$apiProvider) {
-            $exception = new ApiProviderNotDefinedException('apiProvider value not found in plugin config');
-            $output->writeln($exception->getMessage());
-
-            return 1;
+            throw new ApiProviderNotDefinedException();
         }
 
         try {
