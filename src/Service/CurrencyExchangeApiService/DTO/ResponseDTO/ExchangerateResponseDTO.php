@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Service\CurrencyExchangeApiService\DTO\ResponseDTO;
+namespace PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO\ResponseDTO;
 
-use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\DTOInterface;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO\DTOInterface;
 
 class ExchangerateResponseDTO implements DTOInterface
 {

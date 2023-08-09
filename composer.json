@@ -1,18 +1,18 @@
 {
   "name": "gameseal/api-plugin",
-  "description": "Gameseal API Plugin",
+  "description": "ThreeDotsPrint Print Supplier Integration Plugin",
   "type": "shopware-platform-plugin",
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "GamesealPlugin\\": "src/"
+      "PrintSupplierIntegrationPlugin\\": "src/"
     }
   },
   "extra": {
-    "shopware-plugin-class": "GamesealPlugin\\GamesealPlugin",
+    "shopware-plugin-class": "PrintSupplierIntegrationPlugin\\PrintSupplierIntegrationPlugin",
     "label": {
-      "de-DE": "Gameseal API Plugin",
-      "en-GB": "Gameseal API Plugin"
+      "de-DE": "ThreeDotsPrint Print Supplier Integration Plugin",
+      "en-GB": "ThreeDotsPrint Print Supplier Integration Plugin"
     }
   }
 }

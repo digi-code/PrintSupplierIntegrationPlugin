@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Service\CurrencyExchangeApiService\Client;
+namespace PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\Client;
 
-use GamesealPlugin\Repository\CurrencyExchange\CurrencyExchangeRepository;
-use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\CurrencyDTO;
+use PrintSupplierIntegrationPlugin\Repository\CurrencyExchange\CurrencyExchangeRepository;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO\CurrencyDTO;
 use GuzzleHttp\Client;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\DependencyInjection\ContainerInterface;

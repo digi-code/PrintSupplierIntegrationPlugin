@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\API;
+namespace PrintSupplierIntegrationPlugin\API;
 
-use GamesealPlugin\Service\CurrencyExchangeApiService\API\ApiClient;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\API\ApiClient;
 use Shopware\Core\Framework\Context;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

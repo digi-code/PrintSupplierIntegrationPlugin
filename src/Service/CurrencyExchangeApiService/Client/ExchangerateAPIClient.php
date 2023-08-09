@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Service\CurrencyExchangeApiService\Client;
+namespace PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\Client;
 
-use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\CurrencyDTO;
-use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\ResponseDTO\ExchangerateResponseDTO;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO\CurrencyDTO;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO\ResponseDTO\ExchangerateResponseDTO;
 
 class ExchangerateAPIClient extends AbstractClient
 {

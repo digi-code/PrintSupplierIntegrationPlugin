@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Service\CurrencyExchangeApiService\API;
+namespace PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\API;
 
-use GamesealPlugin\Core\Content\CurrencyExchange\CurrencyExchangeEntity;
-use GamesealPlugin\Repository\CurrencyExchange\CurrencyExchangeRepository;
+use PrintSupplierIntegrationPlugin\Core\Content\CurrencyExchange\CurrencyExchangeEntity;
+use PrintSupplierIntegrationPlugin\Repository\CurrencyExchange\CurrencyExchangeRepository;
 use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\CurrencyListDTO;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;

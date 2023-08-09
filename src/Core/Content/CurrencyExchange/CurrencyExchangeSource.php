@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Core\Content\CurrencyExchange;
+namespace PrintSupplierIntegrationPlugin\Core\Content\CurrencyExchange;
 
 use Shopware\Core\Framework\Api\Context\ContextSource;
 

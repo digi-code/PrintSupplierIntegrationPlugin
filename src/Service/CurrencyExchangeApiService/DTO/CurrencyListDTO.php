@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Service\CurrencyExchangeApiService\DTO;
+namespace PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO;
 
 class CurrencyListDTO
 {

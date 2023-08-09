@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Service\CurrencyExchangeApiService\Client;
+namespace PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\Client;
 
-use GamesealPlugin\Core\Content\CurrencyExchange\CurrencyExchangeSource;
-use GamesealPlugin\Service\CurrencyExchangeApiService\DTO\DTOInterface;
+use PrintSupplierIntegrationPlugin\Core\Content\CurrencyExchange\CurrencyExchangeSource;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\DTO\DTOInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;

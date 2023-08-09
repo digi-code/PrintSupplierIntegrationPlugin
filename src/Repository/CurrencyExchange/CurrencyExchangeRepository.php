@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Repository\CurrencyExchange;
+namespace PrintSupplierIntegrationPlugin\Repository\CurrencyExchange;
 
-use GamesealPlugin\Core\Content\CurrencyExchange\CurrencyExchangeDefinition;
+use PrintSupplierIntegrationPlugin\Core\Content\CurrencyExchange\CurrencyExchangeDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Event\EntityLoadedEventFactory;
 use Shopware\Core\Framework\DataAbstractionLayer\Read\EntityReaderInterface;

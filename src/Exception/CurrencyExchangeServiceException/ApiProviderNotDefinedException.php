@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Exception\CurrencyExchangeServiceException;
+namespace PrintSupplierIntegrationPlugin\Exception\CurrencyExchangeServiceException;
 
 use Symfony\Component\HttpFoundation\Response;
 

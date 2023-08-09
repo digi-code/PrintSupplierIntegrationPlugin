@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GamesealPlugin\Command;
+namespace PrintSupplierIntegrationPlugin\Command;
 
-use GamesealPlugin\Exception\CurrencyExchangeServiceException\ApiProviderNotDefinedException;
-use GamesealPlugin\Service\CurrencyExchangeApiService\Client\AbstractClient;
+use PrintSupplierIntegrationPlugin\Exception\CurrencyExchangeServiceException\ApiProviderNotDefinedException;
+use PrintSupplierIntegrationPlugin\Service\CurrencyExchangeApiService\Client\AbstractClient;
 use Shopware\Core\System\SystemConfig\Exception\ConfigurationNotFoundException;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\Console\Command\Command;
